@@ -1,0 +1,56 @@
+@import "./theme";
+
+@mixin font($font-name: $main-font) {
+    font-family: $font-name;
+}
+
+@mixin title-font() {
+    @include font($title-font);
+}
+
+@mixin reset() {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+@mixin flex(
+    $align: center,
+    $justify: center,
+    $direction: center,
+    $row: center,
+    $gap: 5px
+) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin flex-center($direction: row, $gap: 5px) {
+    @include flex();
+    gap: $gap;
+    flex-direction: $direction;
+}
+
+@mixin spinner($size: 25px, $color: white, $speed: 1s) {
+    span {
+        width: $size;
+        height: $size;
+        border: solid 5px transparent;
+        border-left-color: $color;
+        border-bottom-color: $color;
+        border-radius: 50%;
+        animation: $speed linear infinite spin;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
