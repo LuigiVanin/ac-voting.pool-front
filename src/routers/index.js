@@ -1,4 +1,4 @@
-import { SignInRouter } from "./signin.router";
-import { SignUpRouter } from "./signup.router";
+import { signUpRouter } from "./signin.router";
+import { signInRouter } from "./signup.router";
 
-export const routes = [SignUpRouter, SignInRouter];
+export const routes = [signInRouter, signUpRouter];

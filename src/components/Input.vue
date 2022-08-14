@@ -52,7 +52,7 @@ export default {
 @import "../styles/mixins";
 @import "../styles/theme";
 .input-wrapper {
-    background: rgb(221, 221, 221);
+    background: $input-color;
     border-radius: 7px;
     box-shadow: 0px 0px 10px -2px #0000008e;
     display: flex;
@@ -66,6 +66,7 @@ export default {
     input {
         @include font();
         color: $dark-gray;
+        width: 100%;
 
         background: transparent;
         flex: 1;

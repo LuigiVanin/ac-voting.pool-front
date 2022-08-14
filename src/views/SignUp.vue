@@ -4,40 +4,47 @@ import Button from "../components/Button.vue";
 import { api } from "../services/api";
 
 export default {
-    name: "SignUp",
-    components: { Input, Button },
+    name: "SignIn",
+    components: {
+        Input,
+        Button,
+    },
     data() {
         return {
+            name: "",
             email: "",
             password: "",
+            imageUrl: "",
             loading: false,
         };
     },
     methods: {
-        setEmail(update) {
-            this.email = update;
+        setValue(itemName) {
+            return (value) => {
+                this[itemName] = value;
+                console.log(this[itemName]);
+            };
         },
-        setPassword(update) {
-            this.password = update;
-        },
-        async fetchData() {
-            console.log(this.loading);
+
+        async signUp(event) {
+            event.preventDefault();
+            const body = {
+                name: this.name,
+                email: this.email,
+                imageUrl: this.imageUrl,
+                password: this.password,
+            };
             this.loading = true;
-            const res = { err: undefined, data: undefined };
-            // try {
-            //     const result = await api.get("/signin");
-            //     console.log("deu certo");
-            //     res.data = result;
-            // } catch (err) {
-            //     console.log("Erro");
-            //     res.err = err;
-            // } finally {
-            //     this.loading = false;
-            // }
+            try {
+                const result = await api.post("auth/signup", body);
+                console.log(result);
+                this.$router.push("/");
+            } catch (err) {
+                console.log(err);
+            } finally {
+                this.loading = false;
+            }
         },
-    },
-    mounted() {
-        console.log(import.meta.env.VITE_API_URL);
     },
 };
 </script>
@@ -45,62 +52,42 @@ export default {
 <template>
     <main>
         <h1>voting.pool</h1>
-        <p>Faça seu Login!</p>
-        <form>
+        <p>Faça seu cadastro</p>
+        <form @submit="signUp($event)">
             <Input
-                :setter="setEmail"
-                icon="mail-outline"
-                placeholder="Insira seu Email..."
+                :setter="setValue('name')"
+                placeholder="*Username..."
+                icon="person-outline"
                 required
             />
             <Input
-                type="password"
-                :setter="setPassword"
+                :setter="setValue('email')"
+                placeholder="*Email..."
+                type="email"
+                icon="mail-outline"
+                required
+            />
+            <Input
+                :setter="setValue('imageUrl')"
+                placeholder="Foto(url)..."
+                icon="image-outline"
+            />
+            <Input
+                :setter="setValue('password')"
+                placeholder="*Senha..."
                 icon="key-outline"
-                placeholder="Insira sua Senha..."
                 required
             />
             <Button
-                text="Login"
-                icon="log-in-outline"
-                @click="fetchData()"
+                text="Cadastre-se"
+                icon="id-card-outline"
                 :loading="loading"
             />
-            <router-link to="/signin"
-                >Não possui conta, Faça cadastro!</router-link
-            >
+            <router-link to="/">Já possui conta, Faça Login!</router-link>
         </form>
     </main>
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/mixins";
-
-main {
-    width: 70%;
-    margin-inline: auto;
-    min-height: 100vh;
-    @include flex-center(column, 30px);
-
-    h1 {
-        @include title-font();
-        font-weight: 700;
-        font-size: 38px;
-        color: $main-green;
-        margin-bottom: 35px;
-    }
-}
-
-form {
-    @include flex-center(column, 30px);
-    width: 100%;
-
-    a {
-        position: absolute;
-        bottom: 7vh;
-        font-size: 18px;
-        font-weight: 600;
-        color: $soft-green;
-    }
-}
+@import "../styles/partials/forms";
 </style>

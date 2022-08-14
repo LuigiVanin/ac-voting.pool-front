@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",
+    "cypress": "^10.4.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "sass": "^1.54.4",
     "vite": "^3.0.0"
   }

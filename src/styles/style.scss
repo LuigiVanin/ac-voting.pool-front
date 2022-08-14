@@ -24,6 +24,10 @@
 body {
     @include font();
     min-height: 100vh;
-    width: 100%;
+    width: 100vw;
     background-color: $background;
+}
+
+#app {
+    width: 100%;
 }

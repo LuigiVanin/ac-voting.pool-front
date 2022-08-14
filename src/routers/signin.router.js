@@ -1,7 +1,7 @@
 import SignIn from "../views/SignIn.vue";
 
-export const SignInRouter = {
-    path: "/signin",
+export const signUpRouter = {
+    path: "/",
     name: "sign-in",
     component: SignIn,
 };
