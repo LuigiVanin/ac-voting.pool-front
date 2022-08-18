@@ -51,18 +51,14 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/mixins";
 @import "../styles/theme";
+
 .input-wrapper {
-    background: $input-color;
-    border-radius: 7px;
-    box-shadow: 0px 0px 10px -2px #0000008e;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    transition: 0.2s ease-in-out;
-    &:hover {
-        box-shadow: 0px 0px 14px -2px #0000008e;
-    }
+    @include input-default();
+
     input {
         @include font();
         color: $dark-gray;
@@ -80,7 +76,7 @@ export default {
     }
 
     ion-icon {
-        font-size: 28px;
+        font-size: 26px;
         padding-inline: 10px;
         padding-block: 2px;
         border-left: 1px solid $dark-gray;

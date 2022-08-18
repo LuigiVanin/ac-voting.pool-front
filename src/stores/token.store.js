@@ -17,11 +17,18 @@ export const useTokenStore = defineStore("token", {
         },
     },
     getters: {
-        withBearer() {
-            return `Bearer ${this.token}`;
+        withBearer(state) {
+            return `Bearer ${state.token}`;
         },
-        normal() {
-            return this.token;
+        normal(state) {
+            return state.token;
+        },
+        isAuth(state) {
+            return (
+                state.token !== "" ||
+                state.token !== undefined ||
+                state.token !== null
+            );
         },
     },
 });

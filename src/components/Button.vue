@@ -1,5 +1,10 @@
 <template>
-    <button :disabled="loading" :style="!style ? {} : style">
+    <button
+        :disabled="loading"
+        :class="loading ? 'toggle' : ''"
+        :style="!style ? {} : style"
+        @click="test()"
+    >
         <span v-if="!loading">
             {{ text }}
             <ion-icon v-show="icon" :name="icon" />
@@ -31,6 +36,16 @@ export default {
             type: Object,
             default: undefined,
         },
+        action: {
+            type: Function,
+            default: () => {},
+        },
+    },
+    methods: {
+        test() {
+            console.log("Jeed");
+            this.action();
+        },
     },
 };
 </script>
@@ -39,22 +54,33 @@ export default {
 @import "../styles/theme";
 @import "../styles/mixins";
 
+button.toggle {
+    background: $main-green;
+    width: 100%;
+    color: white;
+
+    ion-icon {
+        color: white;
+    }
+}
+
 button {
     @include reset();
-    @include flex(center, center, center, row, 10px);
-    width: 80%;
+    @include flex(center, center, row, 10px);
+    width: 85%;
     padding-block: 15px;
     border-radius: 10px;
     font-size: 19px;
     color: $dark-gray;
     cursor: pointer;
-    transition: 0.2s cubic-bezier(0.25, 0.75, 0.5, 1.25);
+    transition: 0.2s $animation-tf;
     font-weight: 600;
     background: $soft-green;
     span {
-        @include flex(center, center, center, row, 2px);
+        @include flex(center, center, row, 2px);
     }
-    &:hover {
+    &:hover
+    /*. &.toggle  */ {
         background: $main-green;
         width: 100%;
         color: white;
@@ -65,7 +91,8 @@ button {
     }
 
     ion-icon {
-        font-size: 28px;
+        font-size: 26px;
+        padding-left: 5px;
         --ionicon-stroke-width: 46px;
         color: $dark-gray;
     }

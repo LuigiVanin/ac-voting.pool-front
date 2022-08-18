@@ -1,0 +1,102 @@
+@import "../mixins";
+@import "../theme";
+
+aside {
+    width: 38%;
+    padding-inline: 10px;
+    /* background: red; */
+    @include flex($justify: start, $direction: column);
+    @include title-font();
+    min-height: calc(100vh - 140px);
+    border-right: $divisor-setup;
+
+    .close {
+        display: none;
+    }
+
+    .image-wrapper {
+        margin-block: 25px;
+    }
+
+    .info {
+        @include flex(center, center, column, 0px);
+        width: 100%;
+        padding-block: 25px;
+        border-block: $divisor-setup;
+
+        h1,
+        h2 {
+            font-size: 20px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 90%;
+            height: 1.5rem;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .email {
+            font-weight: bold;
+            color: $soft-gray;
+            font-weight: 600;
+        }
+        .date {
+            margin-top: 10px;
+        }
+    }
+}
+
+.screen-cover {
+    display: none;
+}
+
+@media (min-width: 980px) {
+    aside {
+        width: 366px;
+    }
+}
+
+@media (max-width: 600px) {
+    aside {
+        position: fixed;
+        top: 0;
+        // left: -280px;
+        bottom: 0;
+        width: 280px;
+        background: white;
+        z-index: 10000;
+        transition: 0.5s $animation-tf;
+
+        .close {
+            width: 100%;
+            display: flex;
+            margin-top: 10px;
+            justify-content: end;
+            padding-inline: 10px;
+
+            ion-icon {
+                font-size: 32px;
+                color: $main-green;
+                --ionicon-stroke-width: 56px;
+                cursor: pointer;
+            }
+        }
+        &.on {
+            left: 0;
+        }
+        &.off {
+            left: -280px;
+        }
+    }
+    .screen-cover {
+        display: flex;
+    }
+}

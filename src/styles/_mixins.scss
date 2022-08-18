@@ -4,6 +4,46 @@
     font-family: $font-name;
 }
 
+@mixin input-default() {
+    background: $input-color;
+    border-radius: 7px;
+    box-shadow: 0px 0px 10px -2px #0000008e;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        box-shadow: 0px 0px 14px -1px #0000008e;
+    }
+}
+
+@mixin text-area-placeholder {
+    textarea::-webkit-input-placeholder {
+        font-size: 19px;
+        @include font();
+    }
+
+    textarea:-moz-placeholder {
+        /* Firefox 18- */
+        font-size: 21px;
+        @include font();
+    }
+
+    textarea::-moz-placeholder {
+        /* Firefox 19+ */
+        font-size: 21px;
+        @include font();
+    }
+
+    textarea:-ms-input-placeholder {
+        font-size: 21px;
+        @include font();
+    }
+
+    textarea::placeholder {
+        font-size: 21px;
+        @include font();
+    }
+}
+
 @mixin title-font() {
     @include font($title-font);
 }
@@ -14,13 +54,7 @@
     border: none;
 }
 
-@mixin flex(
-    $align: center,
-    $justify: center,
-    $direction: center,
-    $row: center,
-    $gap: 5px
-) {
+@mixin flex($align: center, $justify: center, $direction: row, $gap: 5px) {
     display: flex;
     align-items: $align;
     justify-content: $justify;

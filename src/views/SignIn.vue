@@ -40,7 +40,7 @@ export default {
                 const result = await api.post("auth/signin", body);
                 this.res.data = result;
                 this.token.set(result.data.token);
-                this.$router.push("/home");
+                this.$router.push("home");
             } catch (err) {
                 this.res.err = err;
             } finally {

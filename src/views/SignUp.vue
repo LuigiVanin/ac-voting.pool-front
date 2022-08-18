@@ -89,5 +89,23 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "../styles/mixins";
+@import "../styles/theme";
+
+main {
+    width: 70%;
+    margin-inline: auto;
+    min-height: 100vh;
+    @include flex-center(column, 30px);
+
+    h1 {
+        @include title-font();
+        font-weight: 700;
+        font-size: 38px;
+        color: $main-green;
+        margin-bottom: 20px;
+    }
+}
+
 @import "../styles/partials/forms";
 </style>
