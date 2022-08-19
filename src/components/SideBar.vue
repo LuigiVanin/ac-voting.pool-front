@@ -10,9 +10,14 @@
             <h1>{{ user.normal?.name }}</h1>
             <h2 class="email">{{ user.normal?.email }}</h2>
             <h2 class="date">
-                Joined: {{ datetimeFormat(user.normal?.createdAt) }}
+                entrou: {{ datetimeFormat(user.normal?.createdAt) }}
             </h2>
         </div>
+
+        <button @click="goBack()">
+            <ion-icon name="arrow-back-outline" />
+            Voltar
+        </button>
     </aside>
 </template>
 
@@ -42,6 +47,10 @@ export default {
         },
         defineSideBarState() {
             return this.sidebar.value ? "on" : "off";
+        },
+        goBack() {
+            this.sidebar.off();
+            this.$router.back();
         },
     },
 };

@@ -18,9 +18,12 @@
             </nav>
             <h1 v-if="!pool">Nada Ainda</h1>
             <div v-else class="wrapper__feed">
-                <div class="cover" v-show="me.alreadyVoted && nav === 'vote'">
+                <div
+                    class="cover"
+                    v-show="(me.alreadyVoted || pool.closed) && nav === 'vote'"
+                >
                     <div class="button__wrapper">
-                        <Button text="Resultado? 👑" />
+                        <Button text="Resultado? 👑" :action="getResult" />
                     </div>
                 </div>
                 <div v-if="nav === 'vote'" class="votes-container">
@@ -42,7 +45,39 @@
                     </article>
                     <Button text="Votar 👍" @click="postVote()" />
                 </div>
-                <div v-else-if="nav === 'info'" class="info-container">Ola</div>
+                <div v-else-if="nav === 'info'" class="info-container">
+                    <h2 class="label">Nome:</h2>
+
+                    <h1>{{ pool.name }}</h1>
+
+                    <h2 class="label">Descrição:</h2>
+                    <h2>
+                        {{ pool.desc }}
+                    </h2>
+
+                    <div class="divisor"></div>
+
+                    <div class="owner" v-show="isOwner() && !pool.closed">
+                        <h1>Ações</h1>
+                        <Button
+                            text="Adicionar users"
+                            icon="person-add-outline"
+                            :action="addUsers"
+                        />
+
+                        <div class="divisor"></div>
+
+                        <Button text="Fechar Pool 🥳" :action="closePool" />
+                        <p>
+                            Ao fechar a pool se torna possível visualizar o
+                            resultado, porém votos não são mais aceitos.
+                            <span
+                                >Uma vez fechado, uma pool não pode ser
+                                reaberta.</span
+                            >
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -79,6 +114,14 @@ export default {
         };
     },
     methods: {
+        isOwner() {
+            return this.user.normal.id === this.pool.ownerId;
+        },
+        addUsers() {
+            if (this.isOwner()) {
+                this.$router.push(`/pool/${this.$route.params.id}`);
+            }
+        },
         select(participant) {
             this.selected = participant;
         },
@@ -102,6 +145,34 @@ export default {
                 return 0;
             }
             return (votes / participants?.length) * 100;
+        },
+        async getResult() {
+            const config = buildAuthHeader(this.token.withBearer);
+            try {
+                const [_, result] = await Promise.all([
+                    this.fecthAndSetup(),
+                    api.get(`/pool/${this.$route.params.id}/result`, config),
+                ]);
+                console.log(result);
+            } catch (err) {
+                alert("Resultado não pode ser computado ainda");
+                console.log(err);
+            }
+        },
+        async closePool() {
+            if (!this.isOwner()) return;
+            const config = buildAuthHeader(this.token.withBearer);
+            try {
+                await api.patch(
+                    `/pool/${this.$route.params.id}/close`,
+                    {},
+                    config
+                );
+                await this.fecthAndSetup();
+                this.nav = "vote";
+            } catch (err) {
+                console.log(err);
+            }
         },
         async fecthAndSetup() {
             const config = buildAuthHeader(this.token.withBearer);
@@ -188,10 +259,10 @@ main {
         nav {
             @include flex(center, space-between, row, 0);
             width: 100%;
-            height: 75px;
+            height: 70px;
             box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.63);
             background: white;
-            margin-top: 25px;
+            margin-top: 15px;
             position: relative;
 
             &::before {
@@ -238,7 +309,7 @@ main {
                 position: absolute;
                 inset: 0;
                 z-index: 1000;
-                background: rgba(255, 255, 255, 0.562);
+                background: rgba($color: $background, $alpha: 0.5);
                 @include flex-center();
 
                 .button__wrapper {
@@ -260,6 +331,7 @@ main {
 
             button {
                 margin-block: 10px;
+                margin-top: 35px;
             }
 
             article {
@@ -333,6 +405,61 @@ main {
             }
         }
     }
+
+    .info-container {
+        @include flex(center, start, column, 5px);
+        padding-top: 10px;
+        padding-inline: 6px;
+        width: 100%;
+
+        .owner {
+            width: 100%;
+            @include flex(center, start, column, 5px);
+
+            button {
+                padding-block: 10px;
+            }
+        }
+
+        h1 {
+            font-size: 23px;
+            /* margin-top: 25px; */
+            margin-block: 0px;
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2.label {
+            margin-bottom: 0px;
+        }
+        h2 {
+            width: 100%;
+            font-size: 19px;
+            text-align: center;
+            word-wrap: break-word;
+            font-weight: 600;
+            color: $soft-gray;
+            margin-bottom: 10px;
+        }
+
+        p {
+            width: 90%;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+            span {
+                color: rgb(211, 66, 66);
+            }
+        }
+
+        .divisor {
+            width: 80%;
+            height: 1px;
+            margin-block: 10px;
+            background: $divisor-color;
+        }
+    }
 }
 
 @media (min-width: 980px) {
@@ -354,7 +481,7 @@ main {
 @media (max-width: 350px) {
     main {
         .pool {
-            padding-inline: 15px;
+            padding-inline: 15admipx;
             width: 100%;
         }
     }

@@ -9,7 +9,7 @@
                 <ion-icon name="menu-outline"></ion-icon>
             </button>
             <h1>voting.pool</h1>
-            <button>
+            <button @click="logout()">
                 <h2>log.out</h2>
                 <ion-icon name="log-out-outline" />
             </button>
@@ -19,18 +19,25 @@
 
 <script>
 import { useSideBarStore } from "../stores/sidebar.store";
+import { useUserStore } from "../stores/user.store";
 export default {
     name: "Header",
     setup() {
         const sidebar = useSideBarStore();
+        const user = useUserStore();
 
         return {
+            user,
             sidebar,
         };
     },
     methods: {
         goBack() {
             this.$router.back();
+        },
+        logout() {
+            this.user.unset();
+            this.$router.push("/");
         },
     },
 };

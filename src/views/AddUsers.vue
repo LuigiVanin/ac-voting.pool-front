@@ -1,11 +1,44 @@
 <template>
-    Teste
-    <ul v-auto-animate>
-        <li v-for="(u, index) in users" :key="u.id" @click="selectUser(u)">
-            {{ index }} - {{ u.name }}
-        </li>
-    </ul>
-    <Button text="Criar Pool!" @click="addUsers()" />
+    <main>
+        <Cancel />
+        <div class="container">
+            <Input
+                placeholder="Buscar..."
+                icon="search-outline"
+                :setter="setSearch"
+            />
+            <Button
+                text="Adicionar Usuários"
+                icon="person-add-outline"
+                @click="addUsers()"
+            />
+            <hr v-show="selected.length" />
+            <h1 v-show="selected.length">Selecionados:</h1>
+            <ul v-auto-animate>
+                <li v-for="u in selected" :key="u.id" @click="unSelectUser(u)">
+                    <UserImage :src="u.imageUrl" size="100px" />
+                    <h1>
+                        {{ u.name }}
+                    </h1>
+                </li>
+            </ul>
+
+            <hr />
+
+            <ul v-auto-animate>
+                <li
+                    v-for="u in searchUsers(users)"
+                    :key="u.id"
+                    @click="selectUser(u)"
+                >
+                    <UserImage :src="u.imageUrl" size="100px" />
+                    <h1>
+                        {{ u.name }}
+                    </h1>
+                </li>
+            </ul>
+        </div>
+    </main>
 </template>
 
 <script>
@@ -14,10 +47,13 @@ import { useUserStore } from "../stores/user.store";
 import { buildAuthHeader } from "../utils/index";
 import Button from "../components/Button.vue";
 import { api } from "../services/api";
+import UserImage from "../components/UserImage.vue";
+import Input from "../components/Input.vue";
+import Cancel from "../components/Cancel.vue";
 
 export default {
     name: "AddUsers",
-    components: { Button },
+    components: { Button, UserImage, Input, Cancel },
     setup() {
         const token = useTokenStore();
         const user = useUserStore();
@@ -31,16 +67,33 @@ export default {
         return {
             users: [],
             selected: [],
+            search: "",
         };
     },
     methods: {
+        setSearch(value) {
+            this.search = value;
+        },
+        searchUsers(itens) {
+            if (!this.search) return itens;
+            return itens.filter(
+                (item) =>
+                    item.name.includes(this.search) ||
+                    item.email.includes(this.search)
+            );
+        },
         selectUser(user) {
             this.users = this.users.filter((item) =>
-                item.id === user.id
-                    ? this.selected.push(item.id) && false
-                    : true
+                item.id === user.id ? this.selected.push(item) && false : true
             );
-            console.log(this.selected);
+        },
+        unSelectUser(user) {
+            this.selected = this.selected.filter((item) =>
+                item.id === user.id ? this.users.push(item) && false : true
+            );
+        },
+        getOnlyId(users) {
+            return users.map((u) => u.id);
         },
         async fetchMe(config) {
             console.log("aiaai");
@@ -61,7 +114,7 @@ export default {
         },
         async addUsers() {
             const config = buildAuthHeader(this.token.withBearer);
-            const body = { users: this.selected };
+            const body = { users: this.getOnlyId(this.selected) };
             try {
                 const result = await api.post(
                     `pool/${this.$route.params.id}`,
@@ -98,8 +151,50 @@ export default {
 @import "../styles/theme";
 @import "../styles/mixins";
 
-li {
-    padding: 20px;
-    background: $main-green;
+main {
+    min-height: 100vh;
+    width: 100%;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    @include flex(center, center);
+    .container {
+        width: 65%;
+        @include flex-center(column, 10px);
+        button {
+            width: 100%;
+        }
+        h1 {
+            @include title-font();
+            font-weight: bold;
+            color: $dark-gray;
+            font-size: 19px;
+        }
+        hr {
+            width: 80%;
+            margin-block: 15px;
+            color: rgb(236, 236, 236);
+        }
+        ul {
+            @include flex(center, space-around, $gap: 20px);
+            flex-wrap: wrap;
+            padding-inline: 20px;
+        }
+        li {
+            @include flex-center(column, 5px);
+
+            /* padding: 20px; */
+            width: 100px;
+            cursor: pointer;
+
+            h1 {
+                width: 100%;
+                word-wrap: break-word;
+                @include title-font();
+                text-align: center;
+                font-size: 16px;
+                font-weight: 600;
+            }
+        }
+    }
 }
 </style>

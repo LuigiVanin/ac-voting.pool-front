@@ -32,6 +32,11 @@ export default {
             value: "",
         };
     },
+    watch: {
+        value(newValue, old) {
+            this.setter(newValue);
+        },
+    },
 };
 </script>
 

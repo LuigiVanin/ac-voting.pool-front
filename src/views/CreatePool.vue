@@ -15,11 +15,7 @@
                     required
                 />
             </div>
-            <Button
-                text="Adicionar usuários"
-                icon="person-add-outline"
-                :loading="loading"
-            />
+            <Button text="Criar Pool 🥳" :loading="loading" />
         </form>
     </main>
 </template>
@@ -110,14 +106,6 @@ export default {
             }
         },
     },
-    // watch: {
-    //     name(value, old) {
-    //         console.log(value);
-    //     },
-    //     desc(value, old) {
-    //         console.log(value);
-    //     },
-    // },
 };
 </script>
 

@@ -49,8 +49,13 @@ aside {
             font-weight: 600;
         }
         .date {
-            margin-top: 10px;
+            margin-top: 15px;
+            color: $soft-gray;
+            font-weight: 600;
         }
+    }
+    button {
+        display: none;
     }
 }
 
@@ -74,6 +79,24 @@ aside {
         background: white;
         z-index: 10000;
         transition: 0.5s $animation-tf;
+
+        button {
+            @include reset();
+            @include flex-center();
+            margin-block: 15px;
+            color: $dark-gray;
+            font-size: 19px;
+            font-weight: 600;
+            width: 70%;
+            height: 35px;
+            border-radius: 5px;
+            background-color: rgb(228, 228, 228);
+            transition: 0.2s ease-in-out;
+
+            &:hover {
+                background: $soft-green;
+            }
+        }
 
         .close {
             width: 100%;

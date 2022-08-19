@@ -16,13 +16,13 @@
                 </h2>
 
                 <div class="pools__container" v-else>
-                    <h1
+                    <Pool
                         v-for="pool in pools"
                         :key="pool.id"
                         @click="toPool(pool.id)"
-                    >
-                        {{ pool.id }}
-                    </h1>
+                        :pool="pool"
+                        :userId="user.normal.id"
+                    />
                 </div>
             </div>
         </div>
@@ -38,10 +38,11 @@ import UserImage from "../components/UserImage.vue";
 import Button from "../components/Button.vue";
 import Header from "../components/Header.vue";
 import SideBar from "../components/SideBar.vue";
+import Pool from "../components/Pool.vue";
 
 export default {
     name: "Home",
-    components: { UserImage, Button, Header, SideBar },
+    components: { UserImage, Button, Header, SideBar, Pool },
     data() {
         return {
             pools: [],
@@ -60,7 +61,10 @@ export default {
         const config = buildAuthHeader(this.token.withBearer);
         this.loading = true;
         try {
-            await this.fetchPoolsData(config);
+            await Promise.all([
+                this.fetchPoolsData(config),
+                this.fetchUserData(config),
+            ]);
         } catch (err) {
             console.log(err);
             this.$router.push("/");
@@ -138,6 +142,10 @@ main {
                 font-size: 18px;
                 color: $soft-gray;
                 font-weight: bold;
+            }
+
+            .pools__container {
+                @include flex(start, center, column, 25px);
             }
         }
     }
