@@ -154,6 +154,10 @@ export default {
                     api.get(`/pool/${this.$route.params.id}/result`, config),
                 ]);
                 console.log(result);
+                this.$router.push({
+                    path: `/pool/${this.$route.params.id}/result`,
+                });
+                console.log(result);
             } catch (err) {
                 alert("Resultado não pode ser computado ainda");
                 console.log(err);

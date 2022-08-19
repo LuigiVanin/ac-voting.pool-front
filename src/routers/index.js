@@ -5,6 +5,7 @@ import { useTokenStore } from "../stores/token.store";
 import CreatePool from "../views/CreatePool.vue";
 import AddUsers from "../views/AddUsers.vue";
 import PoolPage from "../views/PoolPage.vue";
+import Result from "../views/Result.vue";
 
 const signInRouter = {
     path: "/signup",
@@ -73,6 +74,20 @@ const poolPageRouter = {
     },
 };
 
+const resultRouter = {
+    path: "/pool/:id/result",
+    name: "resultPage",
+    component: Result,
+    beforeEnter(to, from, next) {
+        const token = useTokenStore();
+
+        if (!token.isAuth) {
+            next("/");
+        }
+        next();
+    },
+};
+
 export const routes = [
     signInRouter,
     signUpRouter,
@@ -80,4 +95,5 @@ export const routes = [
     createPoolRouter,
     addUserRouter,
     poolPageRouter,
+    resultRouter,
 ];
