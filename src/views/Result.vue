@@ -72,9 +72,6 @@ export default {
                     api.get(`/pool/${this.$route.params.id}/result`, config),
                 ]);
                 console.log(result);
-                this.$router.push({
-                    path: `/pool/${this.$route.params.id}/result`,
-                });
                 this.result = result.data;
             } catch (err) {
                 alert("Resultado não pode ser computado ainda");
@@ -93,7 +90,7 @@ export default {
         },
     },
     async mounted() {
-        this.getResult();
+        if (!this.pool) await this.getResult();
     },
 };
 </script>
@@ -108,6 +105,8 @@ main {
     background: $main-green;
     position: relative;
     padding-top: 30px;
+    padding-bottom: 15px;
+
     @include flex-center($direction: column, $gap: 25px);
 
     article {

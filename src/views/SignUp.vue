@@ -41,9 +41,9 @@ export default {
                 this.$router.push("/");
             } catch (err) {
                 console.log(err);
+                alert("Erro em crair usuário");
             } finally {
                 this.loading = false;
-                console.log("Erro em crair usuário");
             }
         },
     },

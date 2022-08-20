@@ -43,7 +43,8 @@ export default {
                 this.$router.push("home");
             } catch (err) {
                 this.res.err = err;
-                console.log("Erro no login");
+                console.log(err);
+                alert("Erro no login");
             } finally {
                 this.loading = false;
             }
@@ -90,26 +91,13 @@ main {
     margin-inline: auto;
     min-height: 100vh;
     @include flex-center(column, 30px);
-
+    @import "../styles/partials/forms";
     h1 {
         @include title-font();
         font-weight: 700;
         font-size: 38px;
         color: $main-green;
         margin-bottom: 35px;
-    }
-}
-
-form {
-    @include flex-center(column, 30px);
-    width: 100%;
-
-    a {
-        position: absolute;
-        bottom: 7vh;
-        font-size: 18px;
-        font-weight: 600;
-        color: $soft-green;
     }
 }
 </style>

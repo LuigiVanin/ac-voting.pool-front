@@ -30,9 +30,7 @@ export default {
             default: "",
         },
     },
-    mounted() {
-        console.log(this.src);
-    },
+    mounted() {},
 };
 </script>
 
