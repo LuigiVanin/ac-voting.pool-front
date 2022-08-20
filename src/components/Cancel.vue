@@ -1,10 +1,13 @@
 <template>
     <div class="wrapper" @click="goTo()">
-        <ion-icon name="close-outline" />
+        <!-- <ion-icon name="close-outline" /> -->
+        <CloseSvg class="icon" />
     </div>
 </template>
 
 <script>
+import CloseSvg from "../assets/close.svg";
+
 export default {
     name: "Cancel",
     props: {
@@ -12,6 +15,9 @@ export default {
             type: String,
             default: "/home",
         },
+    },
+    components: {
+        CloseSvg,
     },
     methods: {
         goTo() {
@@ -30,10 +36,10 @@ export default {
     left: calc(50% - 45%);
     cursor: pointer;
 
-    ion-icon {
-        font-size: 46px;
-        color: $main-green;
-        --ionicon-stroke-width: 56px;
+    .icon {
+        width: 46px;
+        height: 46px;
+        fill: $main-green;
     }
 }
 </style>

@@ -12,7 +12,6 @@
                 <TextArea
                     :setter="setDesc"
                     text="Votação para decidir quem será o líder do grupo"
-                    required
                 />
             </div>
             <Button text="Criar Pool 🥳" :loading="loading" />

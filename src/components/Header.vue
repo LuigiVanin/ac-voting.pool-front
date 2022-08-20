@@ -2,16 +2,19 @@
     <header>
         <div class="wrapper">
             <div class="back" @click="goBack()">
-                <ion-icon name="arrow-back-outline" />
+                <BackArrowSVG class="icon" />
+                <!-- <ion-icon name="arrow-back-outline" /> -->
             </div>
 
             <button class="menu" @click="sidebar.toggle()">
-                <ion-icon name="menu-outline"></ion-icon>
+                <MenuSvg class="icon" />
+                <!-- <ion-icon name="menu-outline"></ion-icon> -->
             </button>
             <h1>voting.pool</h1>
             <button @click="logout()">
                 <h2>log.out</h2>
-                <ion-icon name="log-out-outline" />
+                <!-- <ion-icon name="log-out-outline" /> -->
+                <LogOutSvg class="icon" />
             </button>
         </div>
     </header>
@@ -20,8 +23,17 @@
 <script>
 import { useSideBarStore } from "../stores/sidebar.store";
 import { useUserStore } from "../stores/user.store";
+import BackArrowSVG from "../assets/back-arrow.svg";
+import LogOutSvg from "../assets/log-out-outline.svg";
+import MenuSvg from "../assets/menu.svg";
+
 export default {
     name: "Header",
+    components: {
+        BackArrowSVG,
+        LogOutSvg,
+        MenuSvg,
+    },
     setup() {
         const sidebar = useSideBarStore();
         const user = useUserStore();
@@ -76,14 +88,14 @@ header {
         width: 125px;
     }
 
-    ion-icon {
-        font-size: 26px;
-        color: $main-green;
+    .icon {
+        width: 40px;
+        height: 35px;
+        fill: $main-green;
         border-radius: 5px;
-        padding: 5px;
+        padding-inline: 5px;
+        padding-block: 2px;
         transition: 0.5s ease-in-out;
-        --ionicon-stroke-width: 46px;
-
         &:hover {
             background: rgb(238, 238, 238);
             cursor: pointer;
@@ -95,12 +107,12 @@ header {
     }
 
     button {
-        @include flex-center();
+        @include flex-center($gap: 0px);
         @include reset();
         border-radius: 5px;
         background: $soft-green;
         width: 125px;
-        padding-block: 6px;
+        /* padding-block: 6px; */
         font-size: 19px;
         font-weight: bold;
         color: $dark-gray;
@@ -110,12 +122,19 @@ header {
         &:hover {
             background: $main-green;
             color: white;
-            ion-icon {
-                color: white;
+            .icon {
+                fill: white;
+                background: transparent;
             }
         }
 
-        ion-icon {
+        .icon {
+            height: 35px;
+            width: 35px;
+            fill: $dark-gray;
+        }
+
+        /* ion-icon {
             transition: 0.2s ease-in-out;
 
             font-size: 26px;
@@ -125,7 +144,7 @@ header {
             &:hover {
                 background: transparent;
             }
-        }
+        } */
     }
 }
 

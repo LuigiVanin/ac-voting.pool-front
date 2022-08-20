@@ -43,6 +43,7 @@ export default {
                 console.log(err);
             } finally {
                 this.loading = false;
+                console.log("Erro em crair usuário");
             }
         },
     },

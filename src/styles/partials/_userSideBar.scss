@@ -93,12 +93,23 @@ aside {
             background-color: rgb(228, 228, 228);
             transition: 0.2s ease-in-out;
 
+            .icon {
+                fill: $dark-gray;
+                width: 24px;
+            }
+
             &:hover {
                 background: $soft-green;
             }
         }
 
         .close {
+            .icon {
+                padding: 5px;
+                width: 42px;
+                height: 42px;
+                fill: $main-green;
+            }
             width: 100%;
             display: flex;
             margin-top: 10px;

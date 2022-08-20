@@ -43,7 +43,11 @@
                             {{ participant.user.name }}
                         </h2>
                     </article>
-                    <Button text="Votar 👍" @click="postVote()" />
+                    <Button
+                        text="Votar 👍"
+                        @click="postVote()"
+                        :loading="loading"
+                    />
                 </div>
                 <div v-else-if="nav === 'info'" class="info-container">
                     <h2 class="label">Nome:</h2>
@@ -111,6 +115,7 @@ export default {
             pool: undefined,
             nav: "vote",
             selected: null,
+            loading: false,
         };
     },
     methods: {
@@ -207,6 +212,7 @@ export default {
             const body = {
                 votedParticipantId: this.selected.id,
             };
+            this.loading = true;
             try {
                 await api.post(
                     `/pool/${this.$route.params.id}/vote`,
@@ -221,6 +227,8 @@ export default {
                     return;
                 }
                 this.$router.push("/home");
+            } finally {
+                this.loading = false;
             }
         },
     },

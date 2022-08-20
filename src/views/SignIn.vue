@@ -43,6 +43,7 @@ export default {
                 this.$router.push("home");
             } catch (err) {
                 this.res.err = err;
+                console.log("Erro no login");
             } finally {
                 this.loading = false;
             }

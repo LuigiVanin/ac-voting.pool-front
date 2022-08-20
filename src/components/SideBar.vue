@@ -1,7 +1,8 @@
 <template>
     <aside :class="defineSideBarState()">
         <div class="close" @click="sidebar.off()">
-            <ion-icon name="close-outline" />
+            <!-- <ion-icon name="close-outline" /> -->
+            <CloseSvg class="icon" />
         </div>
         <UserImage :src="user.normal?.imageUrl" size="125px" />
         <div class="info">
@@ -15,7 +16,8 @@
         </div>
 
         <button @click="goBack()">
-            <ion-icon name="arrow-back-outline" />
+            <!-- <ion-icon name="arrow-back-outline" /> -->
+            <BackArrowSvg class="icon" />
             Voltar
         </button>
     </aside>
@@ -26,11 +28,15 @@ import UserImage from "../components/UserImage.vue";
 import { useUserStore } from "../stores/user.store";
 import { dateFormat } from "../utils/index";
 import { useSideBarStore } from "../stores/sidebar.store";
+import BackArrowSvg from "../assets/back-arrow.svg";
+import CloseSvg from "../assets/close-sharp.svg";
 
 export default {
     name: "SideBar",
     components: {
         UserImage,
+        BackArrowSvg,
+        CloseSvg,
     },
     setup() {
         const user = useUserStore();

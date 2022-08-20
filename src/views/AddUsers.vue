@@ -78,8 +78,10 @@ export default {
             if (!this.search) return itens;
             return itens.filter(
                 (item) =>
-                    item.name.includes(this.search) ||
-                    item.email.includes(this.search)
+                    item.name
+                        .toLowerCase()
+                        .includes(this.search.toLowerCase()) ||
+                    item.email.includes(this.search.toLowerCase())
             );
         },
         selectUser(user) {
@@ -122,7 +124,7 @@ export default {
                     config
                 );
                 this.selected = [];
-                console.log(result);
+                this.$router.push(`/pool/${this.$route.params.id}/room`);
             } catch (err) {
                 if (err.response.status === 403) {
                     alert("Adicione pelo menos um usuário novo");
@@ -178,6 +180,8 @@ main {
             @include flex(center, space-around, $gap: 20px);
             flex-wrap: wrap;
             padding-inline: 20px;
+            max-height: 58vh;
+            overflow-y: scroll;
         }
         li {
             @include flex-center(column, 5px);
@@ -188,7 +192,10 @@ main {
 
             h1 {
                 width: 100%;
-                word-wrap: break-word;
+                /* word-wrap: break-word; */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 @include title-font();
                 text-align: center;
                 font-size: 16px;
