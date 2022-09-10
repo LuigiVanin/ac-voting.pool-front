@@ -6,8 +6,8 @@
 
 @mixin input-default() {
     background: $input-color;
-    border-radius: 7px;
-    box-shadow: 0px 0px 10px -2px #0000008e;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px -2px #00000065;
     transition: 0.2s ease-in-out;
 
     &:hover {
@@ -85,6 +85,18 @@
         }
         to {
             transform: rotate(360deg);
+        }
+    }
+}
+
+@mixin item-react(
+    $item-name,
+    $min-screen: 1080px,
+    $max-width: calc(0.8 * 1080px)
+) {
+    @media (min-width: $min-screen) {
+        #{$item-name} {
+            width: $max-width;
         }
     }
 }

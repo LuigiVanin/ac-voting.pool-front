@@ -96,6 +96,7 @@ import UserImage from "../components/UserImage.vue";
 import SideBar from "../components/SideBar.vue";
 import Header from "../components/Header.vue";
 import Button from "../components/Button.vue";
+import { useToast } from "vue-toastification";
 
 export default {
     name: "Pool Page",
@@ -103,10 +104,12 @@ export default {
     setup() {
         const token = useTokenStore();
         const user = useUserStore();
+        const toast = useToast();
 
         return {
             token,
             user,
+            toast,
         };
     },
     data() {
@@ -158,14 +161,12 @@ export default {
                     this.fecthAndSetup(),
                     api.get(`/pool/${this.$route.params.id}/result`, config),
                 ]);
-                console.log(result);
                 this.$router.push({
                     path: `/pool/${this.$route.params.id}/result`,
                 });
                 console.log(result);
             } catch (err) {
-                alert("Resultado não pode ser computado ainda");
-                console.log(err);
+                this.toast.error("Resultado não pode ser computado ainda");
             }
         },
         async closePool() {
@@ -178,6 +179,7 @@ export default {
                     config
                 );
                 await this.fecthAndSetup();
+                this.toast.success("Pool foi fechada!");
                 this.nav = "vote";
             } catch (err) {
                 console.log(err);
@@ -202,7 +204,6 @@ export default {
             );
             console.log(this.pool);
         },
-
         async postVote() {
             if (!this.selected) {
                 alert("selecione alguém");
@@ -223,7 +224,7 @@ export default {
             } catch (err) {
                 console.log(err);
                 if (err.response.status === 409) {
-                    alert(err.response.data.message);
+                    this.toast.error(err.response.data.message);
                     return;
                 }
                 this.$router.push("/home");
@@ -244,258 +245,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/mixins";
-@import "../styles/theme";
-
-main {
-    background: $background;
-    min-height: 100vh;
-    padding-top: 70px;
-
-    @include flex($align: start, $gap: 0px);
-
-    .pool {
-        width: 62%;
-        padding-inline: 20px;
-        /* background: blue; */
-        padding-bottom: 20px;
-        @include flex-center(column);
-
-        h3 {
-            font-size: 19px;
-            margin-top: 10px;
-            font-weight: 400;
-            color: $dark-gray;
-        }
-
-        nav {
-            @include flex(center, space-between, row, 0);
-            width: 100%;
-            height: 70px;
-            box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.63);
-            background: white;
-            margin-top: 15px;
-            position: relative;
-
-            &::before {
-                transition: 0.2s ease-in-out;
-                content: "";
-                position: absolute;
-                bottom: 0;
-                width: 50%;
-                height: 4px;
-                background: $main-green;
-            }
-
-            &.vote::before {
-                left: 0;
-            }
-
-            &.info::before {
-                left: 50%;
-            }
-
-            div {
-                flex: 1;
-                @include flex-center();
-                @include title-font();
-                font-size: 21px;
-                padding-block: 9px;
-                cursor: pointer;
-                color: $dark-gray;
-
-                &:hover {
-                    color: $main-green;
-                }
-
-                &:first-child {
-                    border-right: 1px solid $divisor-color;
-                }
-            }
-        }
-
-        .wrapper__feed {
-            position: relative;
-            width: 100%;
-            .cover {
-                position: absolute;
-                inset: 0;
-                z-index: 1000;
-                background: rgba($color: $background, $alpha: 0.5);
-                @include flex-center();
-
-                .button__wrapper {
-                    @include flex-center();
-                    width: 65%;
-                    button {
-                        padding-block: 20px;
-                    }
-                }
-            }
-        }
-
-        .votes-container {
-            width: 100%;
-            @include flex(start, center, $gap: 15px);
-            flex-wrap: wrap;
-            margin-top: 15px;
-            margin-bottom: 25px;
-
-            button {
-                margin-block: 10px;
-                margin-top: 35px;
-            }
-
-            article {
-                @include flex-center(column);
-                width: 120px;
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-                &::before {
-                    content: "esse?";
-                    position: absolute;
-                    transition: 0.7s ease-in-out;
-                    background: $main-green;
-                    opacity: 1;
-                    @include title-font();
-                    @include flex-center();
-                    color: transparent;
-                    z-index: 100;
-                    border-radius: 50%;
-                    width: 0;
-                    height: 0;
-                    font-weight: bold;
-                    font-size: 26px;
-                }
-
-                &.selected::before {
-                    /* top: -50%;
-                    left: -50%; */
-                    opacity: 0.8;
-
-                    color: white;
-                    width: 150%;
-                    height: 150%;
-                }
-
-                &:hover {
-                    background: rgb(230, 229, 229);
-                }
-
-                h2 {
-                    text-align: center;
-                    width: 100%;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    font-size: 20px;
-                }
-            }
-        }
-
-        h1 {
-            @include title-font();
-            font-size: 28px;
-            margin-block: 15px;
-            color: $dark-gray;
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            height: 10px;
-            width: 100%;
-            border-radius: 5px;
-            background: $divisor-color;
-            transition: 1s $animation-tf;
-
-            .progress {
-                width: 10px;
-                height: 10px;
-                border-radius: 5px;
-                background: $main-green;
-            }
-        }
-    }
-
-    .info-container {
-        @include flex(center, start, column, 5px);
-        padding-top: 10px;
-        padding-inline: 6px;
-        width: 100%;
-
-        .owner {
-            width: 100%;
-            @include flex(center, start, column, 5px);
-
-            button {
-                padding-block: 10px;
-            }
-        }
-
-        h1 {
-            font-size: 23px;
-            /* margin-top: 25px; */
-            margin-block: 0px;
-            margin-bottom: 15px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h2.label {
-            margin-bottom: 0px;
-        }
-        h2 {
-            width: 100%;
-            font-size: 19px;
-            text-align: center;
-            word-wrap: break-word;
-            font-weight: 600;
-            color: $soft-gray;
-            margin-bottom: 10px;
-        }
-
-        p {
-            width: 90%;
-            text-align: center;
-            font-weight: 500;
-            font-size: 14px;
-            span {
-                color: rgb(211, 66, 66);
-            }
-        }
-
-        .divisor {
-            width: 80%;
-            height: 1px;
-            margin-block: 10px;
-            background: $divisor-color;
-        }
-    }
-}
-
-@media (min-width: 980px) {
-    main {
-        .pool {
-            width: 600px;
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    main {
-        .pool {
-            width: 90%;
-        }
-    }
-}
-
-@media (max-width: 350px) {
-    main {
-        .pool {
-            padding-inline: 15admipx;
-            width: 100%;
-        }
-    }
-}
+@import "../styles/partials/poolPage";
 </style>

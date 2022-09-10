@@ -133,7 +133,7 @@ main {
     }
 
     form {
-        width: 85%;
+        width: 80%;
         .field {
             width: 100%;
             position: relative;
@@ -161,6 +161,8 @@ main {
             }
         }
     }
+
+    @include item-react(form);
 }
 
 @keyframes starting-page {

@@ -1,55 +1,3 @@
-<script>
-import Input from "../components/Input.vue";
-import Button from "../components/Button.vue";
-import { api } from "../services/api";
-
-export default {
-    name: "SignIn",
-    components: {
-        Input,
-        Button,
-    },
-    data() {
-        return {
-            name: "",
-            email: "",
-            password: "",
-            imageUrl: "",
-            loading: false,
-        };
-    },
-    methods: {
-        setValue(itemName) {
-            return (value) => {
-                this[itemName] = value;
-                console.log(this[itemName]);
-            };
-        },
-
-        async signUp(event) {
-            event.preventDefault();
-            const body = {
-                name: this.name,
-                email: this.email,
-                imageUrl: this.imageUrl,
-                password: this.password,
-            };
-            this.loading = true;
-            try {
-                const result = await api.post("auth/signup", body);
-                console.log(result);
-                this.$router.push("/");
-            } catch (err) {
-                console.log(err);
-                alert("Erro em crair usuário");
-            } finally {
-                this.loading = false;
-            }
-        },
-    },
-};
-</script>
-
 <template>
     <main>
         <h1>voting.pool</h1>
@@ -89,12 +37,78 @@ export default {
     </main>
 </template>
 
+<script>
+import Input from "../components/Input.vue";
+import Button from "../components/Button.vue";
+import { api } from "../services/api";
+import { useToast } from "vue-toastification";
+
+export default {
+    name: "SignIn",
+    components: {
+        Input,
+        Button,
+    },
+    setup() {
+        const toast = useToast();
+
+        return {
+            toast,
+        };
+    },
+    data() {
+        return {
+            name: "",
+            email: "",
+            password: "",
+            imageUrl: "",
+            loading: false,
+        };
+    },
+    methods: {
+        setValue(itemName) {
+            return (value) => {
+                this[itemName] = value;
+            };
+        },
+
+        async signUp(event) {
+            event.preventDefault();
+            const body = {
+                name: this.name,
+                email: this.email,
+                imageUrl: this.imageUrl,
+                password: this.password,
+            };
+            if (!body.imageUrl) {
+                delete body.imageUrl;
+            }
+            this.loading = true;
+            try {
+                const result = await api.post("auth/signup", body);
+                this.toast.success("Usuário criado com sucesso!");
+                this.$router.push("/");
+            } catch (err) {
+                console.log(err);
+                if (err.response.status == 409) {
+                    this.toast.error(err.response.data.message);
+                } else {
+                    this.toast.error("Erro ao criar usuário!");
+                }
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
+};
+</script>
+
 <style lang="scss" scoped>
 @import "../styles/mixins";
 @import "../styles/theme";
 
 main {
-    width: 70%;
+    width: 80%;
     margin-inline: auto;
     min-height: 100vh;
     @include flex-center(column, 30px);

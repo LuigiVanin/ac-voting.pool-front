@@ -95,7 +95,7 @@ header {
         border-radius: 5px;
         padding-inline: 5px;
         padding-block: 2px;
-        transition: 0.5s ease-in-out;
+        transition: 0.2s ease-in-out;
         &:hover {
             background: rgb(238, 238, 238);
             cursor: pointer;
@@ -111,7 +111,8 @@ header {
         @include reset();
         border-radius: 5px;
         background: $soft-green;
-        width: 125px;
+        /* width: 125px; */
+        padding-left: 10px;
         /* padding-block: 6px; */
         font-size: 19px;
         font-weight: bold;
@@ -156,6 +157,7 @@ header {
         }
 
         button {
+            padding-left: 0;
             h2 {
                 display: none;
             }

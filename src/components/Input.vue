@@ -76,7 +76,7 @@ export default {
     }
 
     ion-icon {
-        font-size: 26px;
+        font-size: 25px;
         padding-inline: 10px;
         padding-block: 2px;
         border-left: 1px solid $dark-gray;

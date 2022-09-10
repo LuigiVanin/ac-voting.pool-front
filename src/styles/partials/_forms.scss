@@ -1,7 +1,7 @@
 @import "../mixins";
 
 form {
-    @include flex-center(column, 30px);
+    @include flex-center(column, 25px);
     width: 100%;
 
     a {
@@ -15,3 +15,5 @@ form {
         }
     }
 }
+
+@include item-react(form);
