@@ -92,6 +92,7 @@ import { api } from "../services/api";
 import { useTokenStore } from "../stores/token.store";
 import { useUserStore } from "../stores/user.store";
 import { buildAuthHeader } from "../utils";
+import { useResult } from "../stores/result.store";
 import UserImage from "../components/UserImage.vue";
 import SideBar from "../components/SideBar.vue";
 import Header from "../components/Header.vue";
@@ -105,11 +106,13 @@ export default {
         const token = useTokenStore();
         const user = useUserStore();
         const toast = useToast();
+        const result = useResult();
 
         return {
             token,
             user,
             toast,
+            result,
         };
     },
     data() {
@@ -161,10 +164,11 @@ export default {
                     this.fecthAndSetup(),
                     api.get(`/pool/${this.$route.params.id}/result`, config),
                 ]);
+                this.result.setResultData(result?.data);
+                console.log("resultado: ", this.result.poolResult);
                 this.$router.push({
                     path: `/pool/${this.$route.params.id}/result`,
                 });
-                console.log(result);
             } catch (err) {
                 this.toast.error("Resultado não pode ser computado ainda");
             }
@@ -198,11 +202,13 @@ export default {
                 this.$router.push("/home");
             }
             this.pool = result.data;
+            this.result;
             this.$refs.progress.style.setProperty(
                 "width",
                 `${this.votesPercentage() || 0}%`
             );
-            console.log(this.pool);
+            this.result.setPoolData(this.pool);
+            // console.log("aquiii", this.result.poolData);
         },
         async postVote() {
             if (!this.selected) {
@@ -234,10 +240,10 @@ export default {
         },
     },
     async mounted() {
+        console.log(this.result);
         try {
             await this.fecthAndSetup();
         } catch (err) {
-            console.log(err);
             this.$router.push("/home");
         }
     },

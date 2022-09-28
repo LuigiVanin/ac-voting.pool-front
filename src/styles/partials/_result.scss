@@ -1,0 +1,83 @@
+@import "../mixins";
+@import "../theme";
+
+main {
+    width: 100%;
+    min-height: 100vh;
+    background: $main-green;
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 15px;
+
+    @include flex-center($direction: column, $gap: 25px);
+
+    article {
+        @include flex-center($gap: 20px);
+        h2 {
+            @include title-font();
+            font-weight: bold;
+            color: white;
+            font-size: 23px;
+            span {
+                font-size: 36px;
+            }
+            &.winner {
+                text-decoration: underline;
+                font-weight: 1000;
+
+                font-size: 26px;
+            }
+        }
+    }
+    .wrapper {
+        position: relative;
+        h2 {
+            text-align: center;
+            width: 110px;
+        }
+        span {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            font-size: 46px;
+            z-index: 1000;
+            transform: rotate(35deg);
+        }
+    }
+
+    .error {
+        margin-block: 15px;
+    }
+
+    .icon {
+        fill: white;
+        width: 50px;
+        height: 50px;
+        padding: 5px;
+        position: fixed;
+        left: 10px;
+        top: 10px;
+        border-radius: 10px;
+        transition: 0.5s ease-in-out;
+        cursor: pointer;
+        &:hover {
+            background: white;
+            fill: $main-green;
+        }
+    }
+
+    h1 {
+        @include title-font();
+        font-weight: bold;
+        color: white;
+        font-size: 32px;
+        text-align: center;
+        width: 80%;
+        span {
+            text-transform: capitalize;
+            font-size: 45px;
+            font-weight: 900;
+            word-wrap: break-word;
+        }
+    }
+}

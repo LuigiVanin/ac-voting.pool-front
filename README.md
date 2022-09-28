@@ -1,8 +1,8 @@
-<h1 align="center" >
+<p align="center" >
 
 <img src="./images/logo.png" width="150px" />
 
-</h1>
+</p>
 
 <h1 align="center">
 voting.pool
@@ -93,9 +93,9 @@ Agora, para rodar a versão de desenvolvimento rodamos o seguinte script:
 > npm run dev
 ```
 
-## Como testar 🧪
-
 <br />
+
+## Como Testar 🧪
 
 Os testes desses repo utilizam das libs do Jest(back) e Cypress(front) - para rodar os respectivos testes basta rodar os scripts corretos!
 
