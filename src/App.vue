@@ -26,7 +26,6 @@ export default {
         },
 
         async fetchUser() {
-            console.log("Quer horrorrrr");
             try {
                 const config = buildAuthHeader(this.token.withBearer);
                 await this.userDataRequest(config);
@@ -41,7 +40,6 @@ export default {
 
     watch: {
         async $route(to, from) {
-            console.log("teste");
             // console.log(this.user);
             if (!this.user.isDefined) {
                 await this.fetchUser();

@@ -57,7 +57,6 @@ export default {
             if (this.user.isDefined) {
                 return "ok";
             }
-            console.log(this.token.normal);
             this.loading = true;
             try {
                 const config = buildAuthHeader(this.token.withBearer);
@@ -72,7 +71,6 @@ export default {
         async fetchUser(config) {
             const result = await api.get("user/me", config);
             this.user.set(result.data);
-            console.log(this.user.normal);
         },
         setDesc(value) {
             this.desc = value;
@@ -90,7 +88,6 @@ export default {
             this.loading = true;
             try {
                 const result = await api.post("/pool", body, config);
-                console.log(result);
                 if (!this.user.isDefined) throw new Error();
                 this.$router.push(`/pool/${result.data.id}`);
             } catch (err) {

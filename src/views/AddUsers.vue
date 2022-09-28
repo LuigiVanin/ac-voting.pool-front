@@ -98,7 +98,6 @@ export default {
             return users.map((u) => u.id);
         },
         async fetchMe(config) {
-            console.log("aiaai");
             if (this.user.isDefined) {
                 console.log(this.user.normal);
                 return "ok";

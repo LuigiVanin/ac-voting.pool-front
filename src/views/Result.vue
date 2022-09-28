@@ -68,14 +68,11 @@ export default {
         },
     },
     mounted() {
-        console.log(this.result.poolResult.length);
-        console.log(this.result.poolData);
         if (!this.result.poolResult.length) {
             this.back();
         }
         this.pool = this.result.poolData;
         this.winner = this.result.poolResult[0];
-        console.log("winner: ", this.winner);
     },
 };
 </script>

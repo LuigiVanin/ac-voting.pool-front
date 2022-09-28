@@ -85,7 +85,6 @@ export default {
         async fetchPoolsData(config) {
             const result = await api.get("pool", config);
             this.pools = result.data;
-            console.log(this.pools);
         },
 
         dateFormat(date) {

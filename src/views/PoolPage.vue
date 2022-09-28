@@ -165,7 +165,6 @@ export default {
                     api.get(`/pool/${this.$route.params.id}/result`, config),
                 ]);
                 this.result.setResultData(result?.data);
-                console.log("resultado: ", this.result.poolResult);
                 this.$router.push({
                     path: `/pool/${this.$route.params.id}/result`,
                 });
@@ -240,7 +239,6 @@ export default {
         },
     },
     async mounted() {
-        console.log(this.result);
         try {
             await this.fecthAndSetup();
         } catch (err) {

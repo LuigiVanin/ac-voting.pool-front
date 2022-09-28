@@ -43,7 +43,6 @@ export default {
     },
     methods: {
         test() {
-            console.log("Jeed");
             this.action();
         },
     },
