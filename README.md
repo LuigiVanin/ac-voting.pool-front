@@ -8,6 +8,8 @@
 voting.pool
 </h1>
 
+--- acesse o [monorepo](https://github.com/LuigiVanin/voting.pool-monorepo) ---
+
 Voting.pool é um app de votação 🗳️ com o front e o back sendo desenvoldido com ferramentas da linguagem JavaScript. Para ver o código do backend acesse o [repositório](https://github.com/LuigiVanin/ac-voting.pool-back). Algumas das funções do app:
 
 -   O app deve ser capaz de criar novos usuários.
@@ -19,7 +21,7 @@ Voting.pool é um app de votação 🗳️ com o front e o back sendo desenvoldi
 
 <h3 align="center">
 
-<a  href="https://ac-voting-pool-front.vercel.app/"/>
+<a  href="http://ec2-18-231-116-229.sa-east-1.compute.amazonaws.com"/>
 
 «Acessar Demostração»
 
